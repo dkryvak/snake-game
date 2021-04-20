@@ -10,7 +10,8 @@ public static class Loader
     public enum Scene
     {
         GameSnake,
-        Loading
+        Loading,
+        MainMenu
     }
 
     private static Action loaderCallbackAction;
@@ -27,6 +28,7 @@ public static class Loader
 
     public static void LoaderCallback()
     {
+    
         if (loaderCallbackAction != null)
         {
             loaderCallbackAction();

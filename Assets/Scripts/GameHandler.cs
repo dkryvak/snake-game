@@ -6,10 +6,10 @@ using CodeMonkey;
 public class GameHandler : MonoBehaviour
 {
 
+    [SerializeField] private Snake snake;
+
     private static GameHandler i;
     private static int score;
-
-    [SerializeField] private Snake snake;
 
     private LevelGrid levelGrid;
 
@@ -20,12 +20,27 @@ public class GameHandler : MonoBehaviour
         InitializeStatic();
     }
 
-    void Start()
+    private void Start()
     {
         levelGrid = new LevelGrid(20, 20);
 
         snake.Setup(levelGrid);
         levelGrid.Setup(snake);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (IsGamePaused())
+            {
+                GameHandler.ResumeGame();
+            }
+            else
+            {
+                GameHandler.PauseGame();
+            }
+        }
     }
 
     private static void InitializeStatic()
@@ -46,6 +61,23 @@ public class GameHandler : MonoBehaviour
     public static void SnakeDied()
     {
         GameOverWindow.ShowStatic();
+    }
+
+    public static void ResumeGame()
+    {
+        PauseWindow.HideStatic();
+        Time.timeScale = 1f;
+    }
+
+    public static void PauseGame()
+    {
+        PauseWindow.ShowStatic();
+        Time.timeScale = 0f;
+    }
+
+    public static bool IsGamePaused()
+    {
+        return Time.timeScale == 0f;
     }
 
 }
